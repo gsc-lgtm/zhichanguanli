@@ -1,0 +1,76 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--         标记
+            公司：中裕广恒科技股份有限公司
+            项目：资产管理系统
+            编程人员：研发部郭帅昌
+            时间：2018-8-10
+        -->
+<mapper namespace="zygh.gsc.dao.StatisticalMapper">
+    <select id="SelectStatistical" resultType="java.util.HashMap">
+        SELECT  * FROM
+				(SELECT distinct a.a_attribute FROM assets a where a.a_attribute=#{name} )AS q
+				 LEFT JOIN
+                (SELECT COUNT(1)AS sum FROM assets  where a_attribute=#{name})AS a  ON 1=1
+                LEFT JOIN
+                (SELECT COUNT(1)AS weiqiyong FROM assets WHERE a_enable = '未启用' and a_attribute=#{name})b ON 1=1
+                LEFT JOIN
+                (SELECT COUNT(1)AS zhengchang  FROM assets WHERE a_normal = '是' and a_attribute=#{name})c ON 1=1
+                LEFT JOIN
+                (SELECT COUNT(1)AS dangji FROM assets ass,orders ord WHERE ass.a_id=ord.a_id and ord.orders_state = '故障' and
+                ass.a_attribute=#{name})d ON 1=1
+                LEFT JOIN
+                (SELECT COUNT(1)AS gaojing FROM assets ass,orders ord WHERE ass.a_id=ord.a_id and ord.orders_state = '告警' and
+                ass.a_attribute=#{name})e ON 1=1
+                LEFT JOIN
+                (SELECT COUNT(1) AS paidan FROM repairorders WHERE repair_state = '待接单' and repair_facilities like concat(concat('%',#{name}),'%'))f
+                ON 1=1
+    </select>
+
+
+        <select id="SelectAssetsshebie" resultType="zygh.gsc.bean.Assets">
+             select distinct a_attribute  from  assets
+        </select>
+      <select id="SelectCompery" resultType="zygh.gsc.bean.Company">
+             select *  from  company
+        </select>
+
+
+    <select id="zhengchang" resultType="int">
+                SELECT count(*)AS zhengchang from assets a,company c where a_attribute=#{name} and a_normal='是'and a.c_id=c.c_id and c.c_name=#{compary}
+
+    </select>
+    <select id="zong" resultType="int">
+                SELECT COUNT(*)AS num from assets a,company c where a_attribute=#{name} and a.c_id=c.c_id and c.c_name=#{compary}
+    </select>
+    <select id="SelectPipe" resultType="zygh.gsc.bean.Pipe">
+                SELECT* from pipe
+    </select>
+
+    <insert id="insertpipe" useGeneratedKeys="true" keyProperty="id" parameterType="zygh.gsc.bean.Pipe">
+   insert pipe (pipe_name,pipe_time,pipe_category,pipe_pipe) values(#{pipe_name},#{pipe_time},#{pipe_category},#{pipe_pipe})
+  </insert>
+
+    <update id="updatepipe" parameterType="zygh.gsc.bean.Pipe">
+  		 update pipe set pipe_time=#{pipe_time},pipe_pipe=#{pipe_pipe}
+  		   where pipe_id=#{pipe_id}
+  </update>
+
+    <select id="Onthepipe" resultType="Integer">
+        SELECT sum(pipe_pipe)/count(*) FROM pipe WHERE DATE_FORMAT(pipe_time, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')
+        and pipe_name=#{comparyname}
+    </select>
+
+    <select id="Onthepipe1" resultType="Integer">
+        SELECT sum(pipe_pipe)/count(*) FROM pipe WHERE PERIOD_DIFF(DATE_FORMAT(NOW(), '%Y%m'), DATE_FORMAT(pipe_time, '%Y%m')) = 1
+        and pipe_name=#{comparyname}
+    </select>
+    <select id="OnthepipeYesterday" resultType="Integer">
+       SELECT AVG(pipe_pipe) FROM pipe WHERE TO_DAYS(NOW()) - TO_DAYS(pipe_time) = #{day} and pipe_name=#{comparyname};
+    </select>
+
+
+
+</mapper>

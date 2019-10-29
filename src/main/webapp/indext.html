@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<!--         标记
+            公司：中裕广恒科技股份有限公司
+            项目：资产管理系统
+            编程人员：研发部郭帅昌
+            时间：2018-8-6
+        -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 表格 -->
+    <script src="static/angular.min.js"></script>
+    <script type="text/javascript" src="static/ui-bootstrap-tpls.min.js"></script>
+    <link rel="stylesheet" href="static/bootstrap.min.css">
+</head>
+<body ng-app="app">
+
+
+<div class="BackGround" ng-controller="HelloAjax">
+
+
+    <!-- begin right -->
+    <div class="Right">
+
+
+        <div class="Right_tabs">
+
+
+            <!-- tab content -->
+            <div class="tab-content">
+                <div id="menu1" class="container tab-pane active"><br>
+
+                    <div class="qwq">
+
+                        <ul class="nav nav-tabs" role="tablist">
+
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#add">添加</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#">刷新</a>
+                            </li>
+
+
+                            <form class="navbar-form navbar-left" role="search">
+                                <div class="form-group1">
+                                    <input type="text" id="t2" ng-model="name" class="form-control"
+                                           placeholder="例如：xx" width="500px">
+                                    <button ng-click="get_more();" class="btn btn-default">查询</button>
+                                    <button ng-click="get_more2();" class="btn btn-default">查询全部</button>
+                                </div>
+                            </form>
+
+                        </ul>
+
+
+                    </div>
+
+
+                    <div class="Right_table">
+
+                        <div class="panel">
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <td>系统编号</td>
+                                    <td>路长警号</td>
+                                    <td>路长姓名</td>
+                                    <td>单位编码</td>
+                                    <td>单位名称</td>
+                                    <td>职务</td>
+                                    <td>手机号码</td>
+                                    <td>路长层级</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="data in datas">
+                                    <td>{{data.a_id}}</td>
+                                    <td>{{data.a_category}}</td>
+                                    <td>{{data.a_attribute}}</td>
+                                    <td>{{data.a_ip}}</td>
+                                    <td>{{data.a_model}}</td>
+                                    <td>{{data.a_brandname}}</td>
+                                    <td>{{data.a_environment}}</td>
+                                    <td>{{data.a_number}}</td>
+                                    <td>{{data.a_date}}</td>
+                                    <td>{{data.a_way}}</td>
+                                    <td>{{data.a_num}}</td>
+                                    <td>{{data.a_electricity}}</td>
+                                    <td>{{data.a_datasource}}</td>
+                                    <td>{{data.a_precision}}</td>
+                                    <td>{{data.a_latitude}}</td>
+                                    <td>{{data.a_location}}</td>
+                                    <td>{{data.a_use}}</td>
+                                    <td>{{data.a_system}}</td>
+                                    <td>{{data.a_subsystem}}</td>
+                                    <td>{{data.a_if}}</td>
+                                    <td>{{data.a_normal}}</td>
+                                    <td><a class="aa" style="display:block;text-decoration:none;"
+                                           href="javascript:void(0);" data-reveal-id="myModal">
+                                        修改
+                                    </a></td>
+                                    <td>
+                                        <button ng-click="deletezichan(data.a_id);" class="btn btn-default">查询</button>
+                                        <!--   <a href="delect?id={{data.id}}" onclick="return confirm('确定要删除吗？')">删除</a>-->
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div>
+                            <input type="file" file-model="file" >
+                            <button ng-click="save()" >保存</button>
+                        </div>
+
+
+                        <script type="text/javascript">
+                            var myModule = angular.module("app", ['ui.bootstrap']);
+                            myModule.controller("HelloAjax", ["$scope", "$http", function HelloAjax($scope, $http) {
+
+                                $scope.save = function() {
+                                    var fd = new FormData();
+                                    var file = document.querySelector('input[type=file]').files[0];
+                                    fd.append('logo', file);
+                                    $http({
+                                        method:'Get',
+                                        url:"/asset/upload",
+                                        data: fd,
+                                        headers: {'Content-Type':undefined},
+                                        transformRequest: angular.identity
+                                    }) .success( function ( response ){
+                                            //上传成功的操作
+                                            alert("uplaod success");
+                                        });
+
+                                }
+
+
+
+/*
+                                            //查询全部
+                                            $scope.get_more2 = function () {
+                                                $http({
+                                                    method: "post",
+                                                    url: "asset/selectlimt",
+                                                    params: { 'name': $scope.name}
+                                                }).success(function (response) {
+                                                    $scope.datas = response.selectlimt
+                                                    console.log($scope.datas);
+                                                });
+
+
+
+                                                //修改
+                                                $scope.updatezichan = function () {
+                                                    $http({
+                                                        method: "get",
+                                                        url: "asset/updatezichan",
+                                                        params: {
+                                                            'a_id': $scope.a_id,
+                                                            'a_category': $scope.a_category,
+                                                            'a_attribute': $scope.a_attribute,
+                                                            'a_ip': $scope.a_ip,
+                                                            'a_model': $scope.a_model,
+                                                            'a_brandname': $scope.a_brandname,
+                                                            'a_environment': $scope.a_environment,
+                                                            'a_number': $scope.a_number,
+                                                            'a_date': $scope.a_date,
+                                                            'a_way': $scope.a_way,
+                                                            'a_num': $scope.a_num,
+                                                            'a_electricity': $scope.a_electricity,
+                                                            'a_datasource': $scope.a_datasource,
+                                                            'a_precision': $scope.a_precision,
+                                                            'a_latitude': $scope.a_latitude,
+                                                            'a_location': $scope.a_location,
+                                                            'a_use': $scope.a_use,
+                                                            'a_system': $scope.a_system,
+                                                            'a_subsystem': $scope.a_subsystem,
+                                                            'a_if': $scope.a_if,
+                                                            'a_normal': $scope.a_normal,
+                                                        }
+                                                    }).success(function (data, status) {
+                                                        if (data.update == 1) {
+                                                            alert("修改成功");
+                                                        } else {
+                                                            alert("修改失败")
+                                                        }
+                                                    }).error(function (data, status) {
+                                                        alert("出错")
+                                                    });
+                                                }
+
+
+                                                //删除
+                                                $scope.deletezichan = function (id) {
+                                                    $scope.deleteId = id;
+                                                    if (confirm("是否删除" + $scope.deleteId)) {
+                                                        $http({
+                                                            method: "post",
+                                                            url: "asset/deletezichan",
+                                                            params: {'a_id': $scope.deleteId}
+                                                        }).success(function (data, status) {
+                                                            if (data.delete == 1) {
+                                                                alert("删除成功");
+                                                            } else {
+                                                                alert("删除失败")
+                                                            }
+                                                        }).error(function (data, status) {
+                                                            alert("出错")
+                                                        });
+                                                    }
+                                                }*/
+                                    /*     //修改
+                                    $scope.updatezichan = function (id) {
+                                        $scope.deleteId = id;
+                                        $http({
+                                            method: "post",
+                                            url: "asset/updatezichan",
+                                            params: {'a_id': $scope.deleteId}
+                                        }).success(function (data, status) {
+                                            if (data.update == 1) {
+                                                alert("修改成功");
+                                            } else {
+                                                alert("修改失败")
+                                            }
+                                        }).error(function (data, status) {
+                                            alert("出错")
+                                        });
+
+                                    }*/
+
+
+                              /*      //添加
+                                    $scope.get_more2 = function () {
+                                        $http({
+                                            method: "post",
+                                            url: "asset/insertzichan",
+                                            params: {
+                                                'a_category': $scope.a_category,
+                                                'a_attribute': $scope.a_attribute,
+                                                'a_ip': $scope.a_ip,
+                                                'a_model': $scope.a_model,
+                                                'a_brandname': $scope.a_brandname,
+                                                'a_environment': $scope.a_environment,
+                                                'a_number': $scope.a_number,
+                                                'a_date': $scope.a_date,
+                                                'a_way': $scope.a_way,
+                                                'a_num': $scope.a_num,
+                                                'a_electricity': $scope.a_electricity,
+                                                'a_datasource': $scope.a_datasource,
+                                                'a_precision': $scope.a_precision,
+                                                'a_latitude': $scope.a_latitude,
+                                                'a_location': $scope.a_location,
+                                                'a_use': $scope.a_use,
+                                                'a_system': $scope.a_system,
+                                                'a_subsystem': $scope.a_subsystem,
+                                                'a_if': $scope.a_if,
+                                                'a_normal': $scope.a_normal,
+                                            }
+                                        }).success(function (data, status) {
+                                            if (data.insert == 1) {
+                                                alert("添加成功");
+                                            } else {
+                                                alert("添加失败")
+                                            }
+                                        }).error(function (data, status) {
+                                            alert("出错")
+                                        });
+                                    }
+*/
+
+                                    //
+
+                           /*     }*/
+                            }]);
+
+                            /* var pageApp = angular.module("app",['ui.bootstrap']);
+                            pageApp.controller("ctrl",function($scope, $http){
+                                 $http({
+                                    method: 'GET',
+                                    url: 'test.json'
+                                }).success(function (response) {
+                                    //总条数
+                                    $scope.total = response.total;
+                                    //反转函数转化abcd转dcba
+                                    $scope.data = response.data.reverse();
+                                    //选择显示的条数
+                                    $scope.values = [{"limit":3},{"limit":4},{"limit":5},{"limit":6},{"limit":7},{"limit":8}];
+                                    //默认显示的条数
+                                    $scope.selectedLimit=$scope.values[5];
+                                    //默认显示当前页数
+                                    $scope.currentPage = 1;
+                                    if($scope.data != null){
+                                        $scope.datas = $scope.data.slice($scope.selectedLimit.limit*($scope.currentPage-1),$scope.selectedLimit.limit*$scope.currentPage);
+                                    }else{
+                                        alert($scope.data);
+                                    }
+                                    $scope.page = {
+                                    "limit":$scope.selectedLimit.limit,"pageSize":5,"pageNo":$scope.currentPage,"totalCount":$scope.total};
+                                })
+                                $scope.change = function(selectedLimit){
+                                    $scope.page.limit = selectedLimit.limit;
+                                    $scope.datas = $scope.data.slice($scope.selectedLimit.limit*($scope.page.pageNo-1),$scope.selectedLimit.limit*$scope.page.pageNo);
+                                }
+                                $scope.pageChanged = function(){
+                                    $scope.page.limit = $scope.selectedLimit.limit;
+                                    $scope.datas = $scope.data.slice($scope.selectedLimit.limit*($scope.page.pageNo-1),$scope.selectedLimit.limit*$scope.page.pageNo);
+                                }
+                                $scope.setPage = function (go) {
+                                    $scope.length = Math.ceil($scope.total/$scope.selectedLimit.limit);
+                                    console.log($scope.length);
+                                    if(go > $scope.length){
+                                        $scope.page.pageNo =  $scope.length;
+                                        console.log($scope.length);
+
+                                    }else{
+                                        $scope.page.pageNo=go;
+                                    }
+                                    $scope.datas = $scope.data.slice($scope.selectedLimit.limit*($scope.page.pageNo-1),$scope.selectedLimit.limit*$scope.page.pageNo);
+                                };
+                        }); */
+                        </script>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+</html>

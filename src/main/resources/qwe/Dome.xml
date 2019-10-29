@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1543288207332" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
+  <process id="myProcess_1" isClosed="false" isExecutable="true" processType="None">
+    <startEvent id="_2" name="StartEvent"/>
+    <userTask activiti:exclusive="true" id="员工发起请假审批" name="员工发起请假审批"/>
+    <userTask activiti:async="false" activiti:exclusive="true" id="项目组长审批" name="项目组长审批"/>
+    <userTask activiti:exclusive="true" id="项目总监审批" name="项目总监审批"/>
+    <parallelGateway gatewayDirection="Unspecified" id="_6" name="ParallelGateway"/>
+    <userTask activiti:exclusive="true" id="项目经理审批" name="项目经理审批"/>
+    <parallelGateway gatewayDirection="Unspecified" id="_8" name="ParallelGateway"/>
+    <userTask activiti:exclusive="true" id="人事部处�?" name="人事部处�?"/>
+    <endEvent id="_3" name="EndEvent"/>
+    <sequenceFlow id="_7" name="通过" sourceRef="项目组长审批" targetRef="_6"/>
+    <sequenceFlow id="_15" name="�?始处�?" sourceRef="_8" targetRef="人事部处�?"/>
+    <exclusiveGateway gatewayDirection="Unspecified" id="_19" name="ExclusiveGateway"/>
+    <userTask activiti:exclusive="true" id="公司总裁审批" name="公司总裁审批"/>
+    <userTask activiti:exclusive="true" id="公司副�?�审�?" name="公司副�?�审�?"/>
+    <sequenceFlow id="_16" name="处理结束" sourceRef="人事部处�?" targetRef="_19"/>
+    <sequenceFlow id="_27" sourceRef="_2" targetRef="员工发起请假审批"/>
+    <sequenceFlow id="_28" sourceRef="员工发起请假审批" targetRef="项目组长审批"/>
+    <sequenceFlow id="_29" sourceRef="_6" targetRef="项目经理审批"/>
+    <sequenceFlow id="_30" sourceRef="_6" targetRef="项目总监审批"/>
+    <sequenceFlow id="_31" sourceRef="项目经理审批" targetRef="_8"/>
+    <sequenceFlow id="_32" sourceRef="项目总监审批" targetRef="_8"/>
+    <sequenceFlow id="_33" sourceRef="_19" targetRef="公司副�?�审�?"/>
+    <sequenceFlow id="_34" sourceRef="_19" targetRef="公司总裁审批"/>
+    <sequenceFlow id="_35" name="未�?�过" sourceRef="项目组长审批" targetRef="_3"/>
+    <sequenceFlow id="_39" sourceRef="公司副�?�审�?" targetRef="_3"/>
+    <sequenceFlow id="_40" sourceRef="公司总裁审批" targetRef="_3"/>
+  </process>
+  <bpmndi:BPMNDiagram documentation="background=#FFFFFF;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
+    <bpmndi:BPMNPlane bpmnElement="myProcess_1">
+      <bpmndi:BPMNShape bpmnElement="_2" id="Shape-_2">
+        <omgdc:Bounds height="32.0" width="32.0" x="105.0" y="115.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="员工发起请假审批" id="Shape-员工发起请假审批">
+        <omgdc:Bounds height="55.0" width="85.0" x="190.0" y="105.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="项目组长审批" id="Shape-项目组长审批">
+        <omgdc:Bounds height="55.0" width="85.0" x="355.0" y="105.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="项目总监审批" id="Shape-项目总监审批">
+        <omgdc:Bounds height="55.0" width="85.0" x="595.0" y="165.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_6" id="Shape-_6">
+        <omgdc:Bounds height="32.0" width="32.0" x="500.0" y="115.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="项目经理审批" id="Shape-项目经理审批">
+        <omgdc:Bounds height="55.0" width="85.0" x="590.0" y="25.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_8" id="Shape-_8">
+        <omgdc:Bounds height="32.0" width="32.0" x="740.0" y="110.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="人事部处�?" id="Shape-人事部处�?">
+        <omgdc:Bounds height="55.0" width="85.0" x="860.0" y="100.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_3" id="Shape-_3">
+        <omgdc:Bounds height="32.0" width="32.0" x="1260.0" y="105.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_19" id="Shape-_19" isMarkerVisible="false">
+        <omgdc:Bounds height="32.0" width="32.0" x="1020.0" y="110.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="公司总裁审批" id="Shape-公司总裁审批">
+        <omgdc:Bounds height="55.0" width="85.0" x="1095.0" y="150.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="公司副�?�审�?" id="Shape-公司副�?�审�?">
+        <omgdc:Bounds height="55.0" width="85.0" x="1090.0" y="35.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="_35" id="BPMNEdge__35" sourceElement="妞ゅ湱娲扮紒鍕毐鐎光剝澹�" targetElement="_3">
+        <omgdi:waypoint x="397.5" y="160.0"/>
+        <omgdi:waypoint x="825.0" y="285.0"/>
+        <omgdi:waypoint x="1276.0" y="137.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_34" id="BPMNEdge__34" sourceElement="_19" targetElement="鍏徃鎬昏瀹℃�?">
+        <omgdi:waypoint x="1025.0" y="131.0"/>
+        <omgdi:waypoint x="1025.0" y="185.0"/>
+        <omgdi:waypoint x="1095.0" y="185.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_15" id="BPMNEdge__15" sourceElement="_8" targetElement="娴滆桨绨ㄩ柈銊ヮ槱閻炲棗顓搁幍锟�?">
+        <omgdi:waypoint x="772.0" y="126.0"/>
+        <omgdi:waypoint x="860.0" y="127.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_39" id="BPMNEdge__39" sourceElement="鍏徃鍓�诲鎵�" targetElement="_3">
+        <omgdi:waypoint x="1175.0" y="62.5"/>
+        <omgdi:waypoint x="1260.0" y="121.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_16" id="BPMNEdge__16" sourceElement="娴滆桨绨ㄩ柈銊ヮ槱閻炲棗顓搁幍锟�?" targetElement="_19">
+        <omgdi:waypoint x="945.0" y="127.5"/>
+        <omgdi:waypoint x="1020.0" y="126.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_40" id="BPMNEdge__40" sourceElement="鍏徃鎬昏瀹℃�?" targetElement="_3">
+        <omgdi:waypoint x="1180.0" y="177.5"/>
+        <omgdi:waypoint x="1260.0" y="121.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_28" id="BPMNEdge__28" sourceElement="閸涙ê浼愰崣鎴ｆ崳鐠囧嘲浜ｇ�光剝澹�" targetElement="妞ゅ湱娲扮紒鍕毐鐎光剝澹�">
+        <omgdi:waypoint x="275.0" y="132.5"/>
+        <omgdi:waypoint x="355.0" y="132.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_27" id="BPMNEdge__27" sourceElement="_2" targetElement="閸涙ê浼愰崣鎴ｆ崳鐠囧嘲浜ｇ�光剝澹�">
+        <omgdi:waypoint x="137.0" y="131.0"/>
+        <omgdi:waypoint x="190.0" y="132.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_29" id="BPMNEdge__29" sourceElement="_6" targetElement="妞ゅ湱娲伴幀鑽ゆ磧鐎光剝澹�">
+        <omgdi:waypoint x="515.0" y="116.0"/>
+        <omgdi:waypoint x="515.0" y="55.0"/>
+        <omgdi:waypoint x="590.0" y="55.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_7" id="BPMNEdge__7" sourceElement="妞ゅ湱娲扮紒鍕毐鐎光剝澹�" targetElement="_6">
+        <omgdi:waypoint x="440.0" y="132.5"/>
+        <omgdi:waypoint x="500.0" y="131.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_31" id="BPMNEdge__31" sourceElement="妞ゅ湱娲伴幀鑽ゆ磧鐎光剝澹�" targetElement="_8">
+        <omgdi:waypoint x="675.0" y="55.0"/>
+        <omgdi:waypoint x="755.0" y="55.0"/>
+        <omgdi:waypoint x="755.0" y="111.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_30" id="BPMNEdge__30" sourceElement="_6" targetElement="妞ゅ湱娲扮紒蹇曟倞鐎光剝澹�">
+        <omgdi:waypoint x="520.0" y="143.0"/>
+        <omgdi:waypoint x="520.0" y="200.0"/>
+        <omgdi:waypoint x="595.0" y="200.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_33" id="BPMNEdge__33" sourceElement="_19" targetElement="鍏徃鍓�诲鎵�">
+        <omgdi:waypoint x="1025.0" y="121.0"/>
+        <omgdi:waypoint x="1025.0" y="60.0"/>
+        <omgdi:waypoint x="1090.0" y="60.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_32" id="BPMNEdge__32" sourceElement="妞ゅ湱娲扮紒蹇曟倞鐎光剝澹�" targetElement="_8">
+        <omgdi:waypoint x="680.0" y="195.0"/>
+        <omgdi:waypoint x="755.0" y="195.0"/>
+        <omgdi:waypoint x="755.0" y="141.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

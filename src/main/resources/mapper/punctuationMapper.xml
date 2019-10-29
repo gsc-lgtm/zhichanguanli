@@ -1,0 +1,53 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--         标记
+            公司：中裕广恒科技股份有限公司
+            项目：资产管理系统
+            编程人员：研发部郭帅昌
+            时间：2018-8-6
+        -->
+<!--关联dao成进行数据传递-->
+<mapper namespace="zygh.gsc.dao.punctuationMapper">
+    <!--查询 精度纬度-->
+    <select id="punctuationchaxun" resultType="zygh.gsc.bean.Assets">
+           SELECT * FROM assets where a_attribute=#{name}
+    </select>
+    <!--查询损坏的设备-->
+    <select id="sunhuaichaxun" resultType="zygh.gsc.bean.Assets">
+          select * from assets where  a_attribute=a_attribute  and  a_normal='否'
+    </select>
+
+
+    <!--根据查询损坏的设备添加到数据待派单表里-->
+    <insert id="oredrsinsert" useGeneratedKeys="true" keyProperty="id" parameterType="zygh.gsc.bean.Orders">
+   insert Orders (a_id,orders_time) values(#{a_id},#{orders_time})
+  </insert>
+
+    <select id="Ordersselect" resultType="zygh.gsc.bean.Orders">
+          select * from orders where orders_orders_state='未派单' or orders_orders_state='已派单'
+    </select>
+
+    <select id="Ordersassetsselect" resultType="java.util.HashMap">
+            SELECT * FROM orders o LEFT JOIN assets a ON o.a_id=a.a_id  LEFT JOIN company c ON a.c_id = c.c_id where o.orders_state='故障' and orders_orders_state='未派单'
+              union
+              SELECT * FROM orders o LEFT JOIN assets a ON o.a_id=a.a_id  LEFT JOIN company c ON a.c_id = c.c_id where o.orders_state='警告' and orders_orders_state='未派单'
+    </select>
+
+    <delete id="oredrsdelete" parameterType="zygh.gsc.bean.Orders">
+        delete from orders where a_id=#{con1}
+    </delete>
+
+    <update id="oredrsupdate" parameterType="zygh.gsc.bean.Orders">
+  		 update orders set orders_state='故障'  where a_id=#{a_id}
+  </update>
+
+    <update id="Oredrsupdatetime" parameterType="zygh.gsc.bean.Orders">
+  		 update orders set orders_time=#{dangqian}  where orders_id=#{orders_id}  and  orders_orders_state='未派单'
+  </update>
+
+
+
+
+
+</mapper>

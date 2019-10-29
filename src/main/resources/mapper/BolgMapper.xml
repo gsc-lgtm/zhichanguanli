@@ -1,0 +1,87 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--         标记
+            公司：中裕广恒科技股份有限公司
+            项目：资产管理系统
+            编程人员：研发部郭帅昌
+            时间：2018-8-6
+        -->
+<!--关联dao成进行数据传递-->
+<mapper namespace="zygh.gsc.dao.BolgMapper">
+    <!--查询资产，道路，区域三表联合查询语句-->
+    <select id="chaxun" resultType="java.util.HashMap">
+        SELECT * FROM assets a LEFT JOIN
+ daoroad d ON a.d_uid = d.d_uid LEFT JOIN
+ region r ON r.r_id = d.r_id LEFT JOIN
+ company c on c.c_id=a.c_id LEFT JOIN
+ rozzer roz on roz.rozzer_id=a.rozzer_id
+    </select>
+    <select id="Regionselect" resultType="zygh.gsc.bean.Region">
+      SELECT * from Region
+    </select>
+    <!--添加资产 道路，区域 添加语句 对象-->
+    <insert id="insertzichan" useGeneratedKeys="true" keyProperty="id" parameterType="zygh.gsc.bean.Assets">
+   insert Assets (a_category,a_attribute,a_ip,a_model,a_brandname,a_environment,a_number,a_date,a_way,a_num,a_electricity,a_datasource,a_precision,a_latitude,a_location,a_use,a_system,a_subsystem,a_normal,d_uid,a_enable,rozzer_id) values(#{a_category},#{a_attribute},#{a_ip},#{a_model},#{a_brandname},#{a_environment},#{a_number},#{a_date},#{a_way},#{a_num},#{a_electricity},#{a_datasource},#{a_precision},#{a_latitude},#{a_location},#{a_use},#{a_system},#{a_subsystem},#{a_normal},#{d_uid},#{a_enable},#{rozzer_id})
+  </insert>
+    <!--删除资产语句 从前台获取id -->
+    <delete id="deletezichan" parameterType="zygh.gsc.bean.Assets">
+  	delete from Assets where a_id in
+        <foreach collection="array" item="a_id" index="no" open="("
+                 separator="," close=")">
+            #{a_id}
+        </foreach>
+  </delete>
+    <!--修改资产语句根据 获取的对象进行修改-->
+    <update id="updatezichan" parameterType="zygh.gsc.bean.Assets">
+  		 update Assets set a_category=#{a_category},a_attribute=#{a_attribute},a_ip=#{a_ip},a_model=#{a_model},a_brandname=#{a_brandname},a_environment=#{a_environment},a_number=#{a_number},a_date=#{a_date},a_way=#{a_way},a_num=#{a_num},a_electricity=#{a_electricity},a_datasource=#{a_datasource},a_precision=#{a_precision},a_latitude=#{a_latitude},a_location=#{a_location},a_use=#{a_use},a_system=#{a_system},a_subsystem=#{a_subsystem},a_normal=#{a_normal},d_uid=#{d_uid},a_enable=#{a_enable},rozzer_id=#{rozzer_id}
+  		   where a_id=#{a_id}
+  </update>
+    <!--根据前台传的值 进行模糊查询-->
+    <select id="chaxunlink" resultType="java.util.HashMap">
+        <if test="a==1 ">
+            select * FROM assets a LEFT JOIN daoroad d ON a.d_uid = d.d_uid
+            LEFT JOIN region r ON r.r_id = d.r_id
+            LEFT JOIN trunkroad t ON d.T_id=t.T_id
+            where concat(a_category,a_attribute,a_model,a_brandname,a_environment,
+            a_number,a_date,a_way,a_num,a_electricity,a_datasource,a_enable,
+            a_location,a_use,a_system,a_subsystem,a_normal,r_name,d_name,a_enable)  like concat(concat('%',#{name}),'%')
+        </if>
+        <if test="a==2 ">
+            select * FROM company
+            where concat(c_name,c_head)  like concat(concat('%',#{name}),'%')
+        </if>
+        <if test="a==3">
+            select * FROM daoroad
+            where concat(d_name)  like concat(concat('%',#{name}),'%')
+        </if>
+        <if test="a==4">
+            select * FROM region
+            where concat(r_name)  like concat(concat('%',#{name}),'%')
+        </if>
+
+
+    </select>
+    <!--查询时间段查询-->
+    <select id="selectdata" resultType="zygh.gsc.bean.Assets">
+        SELECT * FROM assets  WHERE  a_date &gt;=#{name} AND a_date &lt;=#{name1}
+
+    </select>
+
+    <!--查询道路-->
+    <select id="daoluselect" resultType="java.util.HashMap">
+       SELECT * FROM  region r,daoroad d  where r.r_id=d.r_id and r.r_id=#{r_id}
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

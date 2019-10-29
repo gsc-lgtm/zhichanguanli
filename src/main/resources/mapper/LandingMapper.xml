@@ -1,0 +1,20 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--         标记
+            公司：中裕广恒科技股份有限公司
+            项目：资产管理系统
+            编程人员：研发部郭帅昌
+            时间：2018-8-6
+        -->
+<!--关联dao成进行数据传递-->
+<mapper namespace="zygh.gsc.dao.LandingMapper">
+    <select id="LandingSelect" resultType="zygh.gsc.bean.User">
+        SELECT * from `user`  where user_name=#{user_name} and user_password=#{user_password}
+    </select>
+    <select id="LandingSelectCompany" resultType="zygh.gsc.bean.Company">
+        SELECT * from `user` u,company c where u.c_id=c.c_id and u.user_cardholder=#{name}
+    </select>
+
+
+</mapper>

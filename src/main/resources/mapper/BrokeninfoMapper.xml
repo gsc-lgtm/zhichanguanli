@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zygh.gsc.dao.BrokenInfoMapper">
+  <resultMap id="BaseResultMap" type="zygh.gsc.bean.BrokenInfo">
+    <id column="broken_id" jdbcType="INTEGER" property="brokenId" />
+    <result column="a_id" jdbcType="INTEGER" property="aId" />
+    <result column="c_id" jdbcType="INTEGER" property="cId" />
+    <result column="a_system" jdbcType="VARCHAR" property="aSystem" />
+    <result column="a_subsystem" jdbcType="VARCHAR" property="aSubsystem" />
+    <result column="a_ip" jdbcType="VARCHAR" property="aIp" />
+    <result column="c_name" jdbcType="VARCHAR" property="cName" />
+    <result column="a_category" jdbcType="VARCHAR" property="aCategory" />
+    <result column="a_attribute" jdbcType="VARCHAR" property="aAttribute" />
+    <result column="a_location" jdbcType="VARCHAR" property="aLocation" />
+    <result column="last_time" jdbcType="VARCHAR" property="lastTime" />
+    <result column="host_status" jdbcType="VARCHAR" property="hostStatus" />
+    <result column="worksheet_status" jdbcType="VARCHAR" property="worksheetStatus" />
+  </resultMap>
+ <!-- 查询所有工单状态为“未生成工单”的故障表信息-->
+  <select id="selectAllBrokenInfo" resultMap="BaseResultMap">
+    select *from broken_info where worksheet_status="未生成工单"
+  </select>
+  <!--修改故障表状态信息-->
+  <update id="updateBrokenInfo" parameterType="Integer">
+  update broken_info   
+  set worksheet_status="已生成工单"
+  where broken_id=#{broken_id}
+</update>  
+</mapper>

@@ -1,0 +1,47 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--         标记
+            公司：中裕广恒科技股份有限公司
+            项目：资产管理系统
+            编程人员：研发部郭帅昌
+            时间：2018-8-6
+        -->
+<!--关联dao成进行数据传递-->
+<mapper namespace="zygh.gsc.dao.middlewareMapper">
+    <!--拼接查询公司管理区域数据-->
+    <select id="Middlewareselect" resultType="zygh.gsc.bean.Company">
+      SELECT DISTINCT c.c_id ,c_name,c.c_phone from company c,middleware m where c.c_id=m.c_id
+    </select>
+    <select id="quyuselect" resultType="zygh.gsc.bean.middleware">
+select * FROM middleware t1,region t2 where t1.r_id = t2.r_id and t1.c_id = #{c_id}
+    </select>
+    <!--查询公司，区域数据 进行添加关联-->
+    <select id="Regionselect" resultType="zygh.gsc.bean.Region">
+      SELECT * from Region
+    </select>
+    <select id="Companyselect" resultType="zygh.gsc.bean.Company">
+      SELECT * from Company
+    </select>
+    <insert id="insertmiddleware" useGeneratedKeys="true" keyProperty="id" parameterType="zygh.gsc.bean.middleware">
+   insert middleware (c_id,r_id) values(#{c_id},#{r_id})
+  </insert>
+    <!--删除公司关联区域的数据-->
+    <delete id="deletemiddleware" parameterType="zygh.gsc.bean.middleware">
+  	delete from middleware where c_id  in
+
+        <foreach collection="array" item="c_id" index="no" open="("
+                 separator="," close=")">
+            #{c_id}
+        </foreach>
+  </delete>
+    <!--修改-->
+    <delete id="deleteupdate" parameterType="zygh.gsc.bean.middleware">
+  	delete from middleware where c_id=#{c_id}
+  </delete>
+    <insert id="updatemiddleware" useGeneratedKeys="true" keyProperty="id" parameterType="zygh.gsc.bean.middleware">
+   insert middleware (c_id,r_id) values(#{c_id},#{r_id})
+  </insert>
+
+
+</mapper>

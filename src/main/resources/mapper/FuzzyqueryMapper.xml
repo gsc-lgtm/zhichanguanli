@@ -1,0 +1,118 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--         标记
+            公司：中裕广恒科技股份有限公司
+            项目：资产管理系统
+            编程人员：研发部郭帅昌
+            时间：2018-8-6
+        -->
+<!--关联dao成进行数据传递-->
+<mapper namespace="zygh.gsc.dao.FuzzyqueryMapper">
+    <!--模糊查询故障损坏设备 以及未派单的设备-->
+    <select id="SelectOrdersfuzzyquery" resultType="java.util.HashMap">
+           SELECT * FROM assets a,orders s,company c
+        <where>
+            <if test="a_ip!=null and a_ip!='' ">
+                and a_ip like "%"#{a_ip}"%"
+            </if>
+            <if test="c_name!=null and c_name!='' ">
+                and c_name like "%"#{c_name}"%"
+            </if>
+            <if test="a_location!=null and a_location!='' ">
+                and a_location like "%"#{a_location}"%"
+            </if>
+            <if test="a_category!=null and a_category!='' ">
+                and a_category like "%"#{a_category}"%"
+            </if>
+            <if test="a_attribute!=null and a_attribute!='' ">
+                and a_attribute like "%"#{a_attribute}"%"
+            </if>
+            <if test="orders_orders_state!=null and orders_orders_state!='' ">
+                and orders_orders_state like "%"#{orders_orders_state}"%"
+            </if>
+             and a.c_id=c.c_id  and a.a_id=s.a_id
+        </where>
+    </select>
+
+    <!--模糊查询以接单设备 -->
+    <select id="SelectRepairOrdersfuzzyquery" resultType="zygh.gsc.bean.RepairOrders">
+        <if test="a==1">
+            SELECT * FROM repairorders
+            <where>
+                <if test="repair_level!=null and repair_level!='' ">
+                    and repair_level like "%"#{repair_level}"%"
+                </if>
+                <if test="repair_processing!=null and repair_processing!='' ">
+                    and repair_processing like "%"#{repair_processing}"%"
+                </if>
+                <if test="repair_head!=null and repair_head!='' ">
+                    and repair_head like "%"#{repair_head}"%"
+                </if>
+                <if test="repair_state!=null and repair_state!='' ">
+                    and repair_state like "%"#{repair_state}"%"
+                </if>
+                <if test="repair_data != null and repair_data != ''">AND repair_date <![CDATA[>=]]>
+                    #{repair_data}
+                </if>
+                <if test="repair_data1 != null and repair_data1 != ''">AND repair_date <![CDATA[<=]]>
+                    #{repair_data1}
+                </if>
+            </where>
+            and repair_state='待接单'
+        </if>
+        <if test="a==2">
+        SELECT * FROM repairorders
+        <where>
+            <if test="repair_level!=null and repair_level!='' ">
+                and repair_level like "%"#{repair_level}"%"
+            </if>
+            <if test="repair_processing!=null and repair_processing!='' ">
+                and repair_processing like "%"#{repair_processing}"%"
+            </if>
+            <if test="repair_head!=null and repair_head!='' ">
+                and repair_head like "%"#{repair_head}"%"
+            </if>
+            <if test="repair_state!=null and repair_state!='' ">
+                and repair_state like "%"#{repair_state}"%"
+            </if>
+            <if test="repair_data != null and repair_data != ''">AND repair_date <![CDATA[>=]]>
+                #{repair_data}
+            </if>
+            <if test="repair_data1 != null and repair_data1 != ''">AND repair_date <![CDATA[<=]]>
+                #{repair_data1}
+            </if>
+        </where>
+        and repair_state='处理中'
+    </if>
+        <if test="a==3">
+            SELECT * FROM repairorders
+            <where>
+                <if test="repair_level!=null and repair_level!='' ">
+                    and repair_level like "%"#{repair_level}"%"
+                </if>
+                <if test="repair_processing!=null and repair_processing!='' ">
+                    and repair_processing like "%"#{repair_processing}"%"
+                </if>
+                <if test="repair_head!=null and repair_head!='' ">
+                    and repair_head like "%"#{repair_head}"%"
+                </if>
+                <if test="repair_state!=null and repair_state!='' ">
+                    and repair_state like "%"#{repair_state}"%"
+                </if>
+                <if test="repair_data != null and repair_data != ''">AND repair_date <![CDATA[>=]]>
+                    #{repair_data}
+                </if>
+                <if test="repair_data1 != null and repair_data1 != ''">AND repair_date <![CDATA[<=]]>
+                    #{repair_data1}
+                </if>
+            </where>
+            and repair_state='已结案'
+        </if>
+
+    </select>
+
+
+
+
+</mapper>

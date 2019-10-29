@@ -1,0 +1,66 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--         标记
+            公司：中裕广恒科技股份有限公司
+            项目：资产管理系统
+            编程人员：研发部郭帅昌
+            时间：2018-8-6
+        -->
+<!--关联dao成进行数据传递-->
+<mapper namespace="zygh.gsc.dao.RepairOrdersMapper">
+    <!-- 查询所有的表头信息-->
+    <!--//查询所属系统-->
+    <select id="selectCom" resultType="zygh.gsc.bean.Company">
+       SELECT  * from company
+    </select>
+    <!--//查询所属系统的子系统-->
+    <select id="selectsubsystem" resultType="zygh.gsc.bean.Assets">
+        SELECT  distinct a_subsystem  from assets where a_system=#{name}
+    </select>
+    <!--发布工单-->
+    <insert id="insertRepairorders" useGeneratedKeys="true" keyProperty="id" parameterType="zygh.gsc.bean.RepairOrders">
+   insert repairorders (repair_system,repair_subsystem,repair_Date,repair_describe,repair_people,repair_level,repair_facilities,repair_processing,repair_head,repair_note,repair_sms,repair_wechat,repair_attachment,repair_single)
+    values(#{repair_system},#{repair_subsystem},#{repair_Date},#{repair_describe},#{repair_people},#{repair_level},#{repair_facilities},#{repair_processing},#{repair_head},#{repair_note},#{repair_sms},#{repair_wechat},#{repair_attachment},#{repair_single})
+    </insert>
+
+    <!-- //查询所属公司以及公司负责人-->
+    <select id="selectCompany" resultType="java.util.HashMap">
+          select  * from groupmembers g where g.c_id in(select c.c_id from company c where c.c_id=g.c_id and  c.c_name=#{name}) ;
+    </select>
+
+    <!-- 查询所有分配中,待机单，处理中,的工单-->
+    <select id="selectRepairOrders" resultType="zygh.gsc.bean.RepairOrders">
+           SELECT  * from repairorders where  repair_state=#{name} and repair_level='特急'
+           union
+           SELECT  * from repairorders where  repair_state=#{name} and repair_level='紧急'
+           union
+           SELECT  * from repairorders where  repair_state=#{name} and repair_level='一般'
+           union
+           SELECT  * from repairorders where  repair_state=#{name} and repair_level='待办'
+    </select>
+    <!--根据发布工单将其状态改为已派单-->
+    <update id="updatestate" parameterType="zygh.gsc.bean.Orders">
+  		 update orders set orders_orders_state='已派单'  where orders_id=#{orders_id}
+   </update>
+
+
+    <!--接单后 根据id 填写原因 以及更改 接单变为处理中-->
+    <update id="updateRepairOrders" parameterType="zygh.gsc.bean.RepairOrders">
+  		 update repairorders set repair_completiontime=#{repair_completiontime},repair_state='处理中',repair_eventhandler=#{repair_eventhandler},repair_note=#{repair_note}  where repair_id=#{repair_id}
+    </update>
+
+    <!--接单后 根据id 填写原因 以及更改 接单变为处理中-->
+    <update id="updateRepairOrdersResults" parameterType="zygh.gsc.bean.RepairOrders">
+  		 update repairorders set repair_completiondate=#{repair_completiondate},repair_state='已结案',repair_eventreason=#{repair_eventreason},repair_dealresults=#{repair_dealresults}  where repair_id=#{repair_id}
+    </update>
+
+
+    <select id="Selectdealwith" resultType="zygh.gsc.bean.RepairOrders">
+          select * from repairorders where repair_state='已结案' and repair_processing=#{name} ;
+    </select>
+    <select id="selectdealwithCompany" resultType="zygh.gsc.bean.Company">
+          select  * from  company
+    </select>
+
+</mapper>

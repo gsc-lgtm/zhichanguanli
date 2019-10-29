@@ -1,0 +1,52 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--         标记
+            公司：中裕广恒科技股份有限公司
+            项目：资产管理系统
+            编程人员：研发部郭帅昌
+            时间：2018-8-6
+        -->
+<!--关联dao成进行数据传递-->
+<mapper namespace="zygh.gsc.dao.CompanyMapper">
+    <select id="Companyselect" resultType="java.util.HashMap">
+SELECT * from company
+    </select>
+
+    <!--添加资产 道路，区域 添加语句 对象-->
+    <insert id="insertCompany" useGeneratedKeys="true" keyProperty="id" parameterType="zygh.gsc.bean.Company">
+   insert company (c_name,c_phone,c_head,c_head_phone) values(#{c_name},#{c_phone},#{c_head},#{c_head_phone})
+  </insert>
+
+
+    <!--删除资产语句 从前台获取id -->
+    <delete id="deleteCompany" parameterType="zygh.gsc.bean.Company">
+  	delete from company where c_id in
+        <foreach collection="array" item="c_id" index="no" open="("
+                 separator="," close=")">
+            #{c_id}
+        </foreach>
+  </delete>
+
+    <!--修改资产语句根据 获取的对象进行修改-->
+    <update id="updateCompany" parameterType="zygh.gsc.bean.Company">
+  		 update company set c_name=#{c_name},c_phone=#{c_phone},c_head=#{c_head},c_head_phone=#{c_head_phone}  where c_id=#{c_id}
+  </update>
+
+<!--小组-->
+    <select id="groupyselect" resultType="zygh.gsc.bean.Groupy">
+       SELECT * from groupy   where   c_id=#{c_id}
+    </select>
+
+    <!--小组下的人-->
+    <select id="Groupmembersselect" resultType="zygh.gsc.bean.Groupmembers">
+       SELECT * from Groupmembers  where   group_id=#{group_id}
+    </select>
+
+    <!--所有关联-->
+    <select id="Relationselect" resultType="java.util.HashMap">
+       SELECT * from daoroad d,region r,middleware m,company c where d.r_id=r.r_id and r.r_id=m.r_id and m.c_id=c.c_id and  d.d_name LIKE concat('%',#{a_location},'%')
+    </select>
+
+
+</mapper>

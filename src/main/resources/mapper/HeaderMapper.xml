@@ -1,0 +1,17 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--         标记
+            公司：中裕广恒科技股份有限公司
+            项目：资产管理系统
+            编程人员：研发部郭帅昌
+            时间：2018-8-10
+        -->
+
+<mapper namespace="zygh.gsc.dao.HeaderMapper">
+    <select id="Headerselect" resultType="zygh.gsc.bean.Header">
+        SELECT * from header WHERE hea_Indexes=#{hea_Indexes} ORDER BY hea_id
+    </select>
+
+
+</mapper>

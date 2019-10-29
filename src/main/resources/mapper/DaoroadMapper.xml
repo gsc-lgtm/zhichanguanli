@@ -1,0 +1,40 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--         标记
+            公司：中裕广恒科技股份有限公司
+            项目：资产管理系统
+            编程人员：研发部郭帅昌
+            时间：2018-8-10
+        -->
+
+<mapper namespace="zygh.gsc.dao.DaoroadMapper">
+    <!--查询道路，区域二表联合查询语句-->
+    <select id="Daoroadselect" resultType="java.util.HashMap">
+  SELECT *FROM Daoroad d LEFT JOIN Region r ON d.r_id=r.r_id LEFT JOIN trunkroad t ON d.T_id=t.T_id
+</select>
+    <select id="Regionselect" resultType="zygh.gsc.bean.Region">
+      SELECT * from Region
+    </select>
+    <select id="Trunkroadselect" resultType="zygh.gsc.bean.Trunkroad">
+      SELECT * from Trunkroad
+    </select>
+    <!--添加道路，区域二表联合添加语句-->
+    <insert id="Daoroadinsert" useGeneratedKeys="true" keyProperty="id" parameterType="zygh.gsc.bean.Daoroad">
+      insert Daoroad (d_name,d_starting,d_end,d_length,r_id,t_id) values(#{d_name},#{d_starting},#{d_end},#{d_length},#{r_id},#{t_id})
+  </insert>
+    <!--删除道路语句 从前台获取id -->
+    <delete id="Daoroaddelete" parameterType="zygh.gsc.bean.Daoroad">
+  	delete from Daoroad where d_uid  in
+        <foreach collection="array" item="d_uid" index="no" open="("
+                 separator="," close=")">
+            #{d_uid}
+        </foreach>
+  </delete>
+    <!--修改道路，区域二表联合添加语句-->
+    <update id="Daoroadupdate" parameterType="zygh.gsc.bean.Daoroad">
+  	   update Daoroad set d_name=#{d_name},d_starting=#{d_starting},d_end=#{d_end},d_length=#{d_length},r_id=#{r_id},t_id=#{t_id} where d_uid=#{d_uid}
+  </update>
+
+
+</mapper>

@@ -2,14 +2,17 @@ package zygh.gsc.action;/*
 	公司：中裕广恒科技股份有限公司
 	项目：zhichanguanli
 	编程人员：研发部郭帅昌
-	时间： 2018-11-01 15:09
+	时间： 2018-09-05 09:21
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import zygh.gsc.dao.FaulttypesMapper;
+import zygh.gsc.bean.Header;
+import zygh.gsc.service.CompanyService;
+import zygh.gsc.service.HeaderService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
@@ -18,25 +21,21 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/asset")
-public class FaulttypesController {
+public class HeaderController {
 
     @Autowired
-    private FaulttypesMapper faulttypesMapper;
+    private HeaderService headerService;
 
-    /**
-     * 常用语查询
-     * @param response
-     * @return
-     */
-    @RequestMapping("/selectFaulttypes")
+    @RequestMapping("/Headerselect")
     @ResponseBody
-        public Map selectFaulttypes(int faulttypes_edno, HttpServletResponse response){
+    public ModelMap Headerselect(int hea_Indexes, HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
-        Map map = new HashMap<String, Object>();
-        List selectFaulttypes =faulttypesMapper.selectFaulttypes(faulttypes_edno);
-        map.put("selectFaulttypes",selectFaulttypes);
+        ModelMap map = new ModelMap();
+        List<Header> Headerselect = headerService.Headerselect(hea_Indexes);
+        map.put("Headerselect", Headerselect);
         return map;
     }
+
 
 
 }
